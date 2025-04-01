@@ -126,6 +126,30 @@ paste("For entertainment, the minimum time spent was", min_entertainment, "minut
 Below is a bar chart that shows the distribution of phone usage purposes. It gives us an idea of what people primarily use their phones for.
 
 ```{r}
+library(tidyverse)
+
+logged_data <- read_csv("/Users/keerurangu/Downloads/Phone Usage Tracking Survey (Responses) - Form responses 1.csv")
+
+latest_data <- logged_data %>%
+  rename(
+    time_spent = 2,
+    usage_purpose = 3,
+    phone_usage_location = 4,
+    most_phone_usage_time_of_day = 5,
+    entertainment_time = 6
+  )
+
+
+# Create new columns for each option in the "usage_purpose" question
+latest_data <- latest_data %>%
+  mutate(
+    messaging = str_detect(usage_purpose, "Messaging"),
+    social_media = str_detect(usage_purpose, "Social media"),
+    entertainment = str_detect(usage_purpose, "Entertainment"),
+    work_study = str_detect(usage_purpose, "Work/Study"),
+    stalking_workout = str_detect(usage_purpose, "Stalking both my beautiful ex situationships relentlessly|Workout Tracking")
+  )
+
 # 1. Bar Chart: Frequency of Usage Purpose
 usage_count <- latest_data %>%
   summarise(
@@ -156,6 +180,31 @@ ggplot(usage_count_long, aes(x = usage_type, y = count, fill = usage_type)) +
 Next, we explore the most common times of day that people use their phones. The following bar chart highlights the most frequent usage times.
 
 ``` {r}
+library(tidyverse)
+
+logged_data <- read_csv("/Users/keerurangu/Downloads/Phone Usage Tracking Survey (Responses) - Form responses 1.csv")
+
+latest_data <- logged_data %>%
+  rename(
+    time_spent = 2,
+    usage_purpose = 3,
+    phone_usage_location = 4,
+    most_phone_usage_time_of_day = 5,
+    entertainment_time = 6
+  )
+
+
+# Create new columns for each option in the "usage_purpose" question
+latest_data <- latest_data %>%
+  mutate(
+    messaging = str_detect(usage_purpose, "Messaging"),
+    social_media = str_detect(usage_purpose, "Social media"),
+    entertainment = str_detect(usage_purpose, "Entertainment"),
+    work_study = str_detect(usage_purpose, "Work/Study"),
+    stalking_workout = str_detect(usage_purpose, "Stalking both my beautiful ex situationships relentlessly|Workout Tracking")
+  )
+
+
 # 2. Bar Graph: Showing Most Common Phone Usage Time of Day
 
 # Define Order for Time Categories (1 = Morning, 5 = Late Night)
