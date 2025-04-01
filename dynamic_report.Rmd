@@ -67,6 +67,8 @@ The data gathered from it have information on:
 
 - At what time of day people used their phones the most.
 
+- Phone usage Locations by Time of Day
+
 For the purposes of analysis, this report will look at the data through major summary data and charts.
 
 ## Summary of key stats
@@ -113,7 +115,7 @@ mean_entertainment <- mean(latest_data$entertainment_time, na.rm = TRUE)
 
 
 # Dynamic comments based on the summary values
-paste("The minimum time spent on the phone in a day was", min_time, "minutes, while the maximum was", max_time, "minutes. On average, people spent", round(mean_time, 1), "minutes on their phones.")
+paste("The minimum time spent on the phone in a day was", min_time, "minutes while the maximum was", max_time, "minutes. On average, people spent", round(mean_time, 1), "minutes on their phones.")
 paste("For entertainment, the minimum time spent was", min_entertainment, "minutes, and the average time spent on entertainment was", round(mean_entertainment, 1), "minutes.")
 
 ```
@@ -194,6 +196,4 @@ Various conclusions have been drawn from the analysis:
 - The most common time of day people use their phones is late night.
 
 The dynamic feature of the report ensures that the charts and summary will automatically refresh every time additional information is collected via the survey.
-
-
 
