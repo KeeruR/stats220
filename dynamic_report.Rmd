@@ -1,0 +1,203 @@
+---
+title: "Phone Usage Tracking Report"
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+h1 {
+  color: #fafafc;
+  font-family: 'Futura', sans-serif;
+  font-weight: bold;
+  background-color: #0f0f42;
+  padding: 20px;
+}
+
+h2 {
+  color: #fafafc;
+  font-family: 'PT Sans', sans-serif;
+  background-color: #0f0f42;
+  font-weight: bold;
+  padding: 20px;
+  border-bottom: 3px solid #4f87db;
+}
+
+body {
+  font-family: 'PT Sans', sans-serif;
+  background: linear-gradient(135deg, #b3d1ff, #d1deeb);
+  font-size: 18px;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  color: #333;
+}
+
+a {
+  color: #0f0f42;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+
+img {
+  border: 5px solid #0f0f42;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+
+ul {
+  list-style-type: square;
+}
+```
+
+
+## Overview of Phone Usage Data
+
+In this report, we track the usage of mobile phones over a period of time. 
+
+The data collected includes information on:
+
+
+- How much time people spend on their phones.
+
+
+- What they mainly use their phones for.
+
+
+- The most frequent times of day people use their phones.
+
+
+This report will analyze the data using key summary values and visualizations to provide insights.
+
+Summary of Key Statistics
+We begin by looking at the key statistics for time spent on phones and the time spent on entertainment.
+
+```{r}
+
+library(tidyverse)
+
+logged_data <- read_csv("/Users/keerurangu/Downloads/Phone Usage Tracking Survey (Responses) - Form responses 1.csv")
+
+latest_data <- logged_data %>%
+  rename(
+    time_spent = 2,
+    usage_purpose = 3,
+    phone_usage_location = 4,
+    most_phone_usage_time_of_day = 5,
+    entertainment_time = 6
+  )
+
+
+# Create new columns for each option in the "usage_purpose" question
+latest_data <- latest_data %>%
+  mutate(
+    messaging = str_detect(usage_purpose, "Messaging"),
+    social_media = str_detect(usage_purpose, "Social media"),
+    entertainment = str_detect(usage_purpose, "Entertainment"),
+    work_study = str_detect(usage_purpose, "Work/Study"),
+    stalking_workout = str_detect(usage_purpose, "Stalking both my beautiful ex situationships relentlessly|Workout Tracking")
+  )
+
+
+
+# Identify minimum, maximum, and mean values for phone usage time
+min_time <- min(latest_data$time_spent, na.rm = TRUE)
+max_time <- max(latest_data$time_spent, na.rm = TRUE)
+mean_time <- mean(latest_data$time_spent, na.rm = TRUE)
+
+# Identify minimum, maximum, and mean values for entertainment time
+min_entertainment <- min(latest_data$entertainment_time, na.rm = TRUE)
+max_entertainment <- max(latest_data$entertainment_time, na.rm = TRUE)
+mean_entertainment <- mean(latest_data$entertainment_time, na.rm = TRUE)
+
+
+# Dynamic comments based on the summary values
+paste("The minimum time spent on the phone in a day was", min_time, "minutes, while the maximum was", max_time, "minutes. On average, people spent", round(mean_time, 1), "minutes on their phones.")
+paste("For entertainment, the minimum time spent was", min_entertainment, "minutes, and the average time spent on entertainment was", round(mean_entertainment, 1), "minutes.")
+
+```
+
+
+## Usage Purpose Breakdown
+Below is a bar chart that shows the distribution of phone usage purposes. It gives us an idea of what people primarily use their phones for.
+
+```{r}
+# 1. Bar Chart: Frequency of Usage Purpose
+usage_count <- latest_data %>%
+  summarise(
+    Messaging = sum(messaging, na.rm = TRUE),
+    Social_Media = sum(social_media, na.rm = TRUE),
+    Entertainment = sum(entertainment, na.rm = TRUE),
+    Work_Study = sum(work_study, na.rm = TRUE),
+    Other = sum(stalking_workout, na.rm = TRUE)
+  )
+
+# Convert counts to long format for plotting
+usage_count_long <- usage_count %>%
+  pivot_longer(cols = everything(), names_to = "usage_type", values_to = "count")
+
+# Plot bar chart for usage purposes
+ggplot(usage_count_long, aes(x = usage_type, y = count, fill = usage_type)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(
+    title = "Frequency of Phone Usage Purposes",
+    x = "Usage Type",
+    y = "Count"
+  )
+
+```
+
+## Most Common Phone Usage Time of Day
+Next, we explore the most common times of day that people use their phones. The following bar chart highlights the most frequent usage times.
+
+``` {r}
+# 2. Bar Graph: Showing Most Common Phone Usage Time of Day
+
+# Define Order for Time Categories (1 = Morning, 5 = Late Night)
+
+time_labels <- c("1" = "Morning", "2" = "Late Morning", "3" = "Afternoon", 
+                 "4" = "Evening", "5" = "Late Night")
+
+
+latest_data$most_phone_usage_time_of_day <- factor(latest_data$most_phone_usage_time_of_day, 
+                                                   levels = c("1", "2", "3", "4", "5"))
+
+
+# Ensure All Time Periods Appear in the Data Frame
+
+time_of_day_counts <- latest_data %>%
+  count(most_phone_usage_time_of_day) %>%
+  complete(most_phone_usage_time_of_day = factor(c("1", "2", "3", "4", "5"), levels = c("1", "2", "3", "4", "5")), 
+           fill = list(n = 0))  # Fill missing values with 0
+
+
+ggplot(time_of_day_counts, aes(x = most_phone_usage_time_of_day, y = n, fill = most_phone_usage_time_of_day)) +
+  geom_bar(stat = "identity") +
+  scale_x_discrete(labels = time_labels) +  
+  theme_minimal() +
+  labs(
+    title = "Most Common Phone Usage Time of Day",
+    x = "Time of Day",
+    y = "Number of People"
+  ) +
+  theme(legend.position = "none")
+```
+
+## Conclusion
+From the analysis, we can draw several insights:
+
+- People on average spend a significant amount of time on their phones for social media and entertainment.
+
+- The peak usage time of day tends to be in the Evening, followed by the Afternoon.
+
+
+The dynamic nature of the report ensures that as more data is collected through the survey, the charts and summaries will update automatically.
+
+
+
+
