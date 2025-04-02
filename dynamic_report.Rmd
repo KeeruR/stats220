@@ -168,7 +168,7 @@ latest_data$most_phone_usage_time_of_day <- factor(latest_data$most_phone_usage_
                                                    levels = c("1", "2", "3", "4", "5"))
 
 
-# Ensure All Time Periods Appear in the Data Frame
+# All Time Periods Appear in the Data Frame
 
 time_of_day_counts <- latest_data %>%
   count(most_phone_usage_time_of_day) %>%
@@ -183,17 +183,44 @@ ggplot(time_of_day_counts, aes(x = most_phone_usage_time_of_day, y = n, fill = m
   labs(
     title = "Most Common Phone Usage Time of Day",
     x = "Time of Day",
-    y = "Number of People"
+    y = "Frequency"
   ) +
   theme(legend.position = "none")
 ```
+
+
+## Phone Usage Locations by Time of Day
+The stacked bar chart shows that phone usage is highest in the evening and late night, primarily at home, while usage during commuting, in class, and on lunch breaks is less frequent throughout the day.
+
+```{r}
+ggplot(location_time_counts, aes(x = most_phone_usage_time_of_day, y = n, fill = phone_usage_location)) +
+  geom_bar(stat = "identity", position = "stack") +  # Stacked bars by location
+  scale_x_discrete(labels = time_labels) +  # Add readable time labels
+  theme_minimal() +
+  labs(
+    title = "Phone Usage Locations by Time of Day",
+    x = "Time of Day",
+    y = "Frequency",
+    fill = "Location"
+  ) +
+  theme(legend.position = "right")
+```
+
+
+
+
+
 
 ## Conclusion
 Various conclusions have been drawn from the analysis:
 
 - In average, individuals use their phones mostly for social media and/or messaging for a significant amount of time.
 
-- The most common time of day people use their phones is late night.
+- The most common time of day phone was used is late night.
+
+- When the phone was used most was mostly at home. 
 
 The dynamic feature of the report ensures that the charts and summary will automatically refresh every time additional information is collected via the survey.
+
+
 
