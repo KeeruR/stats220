@@ -197,9 +197,41 @@ ggplot(time_of_day_counts, aes(x = most_phone_usage_time_of_day, y = n, fill = m
 ## Phone Usage Locations by Time of Day
 The stacked bar chart shows that phone usage is highest in the evening and late night, primarily at home, while usage during commuting, in class, and on lunch breaks is less frequent throughout the day.
 
+```{r}
+# 4. Bar Chart: Phone Usage Location by Time of Day
+
+
+# Define labels for time of day
+time_labels <- c("1" = "Morning", "2" = "Late Morning", "3" = "Afternoon", 
+                 "4" = "Evening", "5" = "Late Night")
+
+# Convert both columns to factors to preserve order
+latest_data$most_phone_usage_time_of_day <- factor(latest_data$most_phone_usage_time_of_day, 
+                                                   levels = c("1", "2", "3", "4", "5"))
+latest_data$phone_usage_location <- as.factor(latest_data$phone_usage_location)
 
 
 
+location_time_counts <- latest_data %>%
+  count(most_phone_usage_time_of_day, phone_usage_location) %>%
+  complete(most_phone_usage_time_of_day = factor(c("1", "2", "3", "4", "5"), levels = c("1", "2", "3", "4", "5")),
+           phone_usage_location,
+           fill = list(n = 0)) 
+
+ggplot(location_time_counts, aes(x = most_phone_usage_time_of_day, y = n, fill = phone_usage_location)) +
+  geom_bar(stat = "identity", position = "stack") +  # Stacked bars by location
+  scale_x_discrete(labels = time_labels) +  # Add readable time labels
+  theme_minimal() +
+  labs(
+    title = "Phone Usage Locations by Time of Day",
+    x = "Time of Day",
+    y = "Frequency",
+    fill = "Location"
+  ) +
+  theme(legend.position = "right")
+
+
+```
 
 
 ## Conclusion
