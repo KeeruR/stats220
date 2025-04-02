@@ -210,7 +210,6 @@ ggplot(location_time_counts, aes(x = most_phone_usage_time_of_day, y = n, fill =
 
 
 
-
 ## Conclusion
 Various conclusions have been drawn from the analysis:
 
