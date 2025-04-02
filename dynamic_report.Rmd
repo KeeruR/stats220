@@ -81,6 +81,7 @@ library(tidyverse)
 
 logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vSnGZftiMapz_Zg6q_MLISNyoJ3PQ2kFAnSDlLvuXmJQuxxTAMDmfvt9W-rILHm2Ez1NyIkQMsqTQZy/pub?gid=296253976&single=true&output=csv")
 
+
 latest_data <- logged_data %>%
   rename(
     time_spent = 2,
@@ -101,6 +102,10 @@ latest_data <- latest_data %>%
     stalking_workout = str_detect(usage_purpose, "Stalking both my beautiful ex situationships relentlessly|Workout Tracking")
   )
 
+
+# ===============================
+# Summary Statistics
+# ===============================
 
 
 # Identify minimum, maximum, and mean values for phone usage time
@@ -192,19 +197,6 @@ ggplot(time_of_day_counts, aes(x = most_phone_usage_time_of_day, y = n, fill = m
 ## Phone Usage Locations by Time of Day
 The stacked bar chart shows that phone usage is highest in the evening and late night, primarily at home, while usage during commuting, in class, and on lunch breaks is less frequent throughout the day.
 
-```{r}
-ggplot(location_time_counts, aes(x = most_phone_usage_time_of_day, y = n, fill = phone_usage_location)) +
-  geom_bar(stat = "identity", position = "stack") +  # Stacked bars by location
-  scale_x_discrete(labels = time_labels) +  # Add readable time labels
-  theme_minimal() +
-  labs(
-    title = "Phone Usage Locations by Time of Day",
-    x = "Time of Day",
-    y = "Frequency",
-    fill = "Location"
-  ) +
-  theme(legend.position = "right")
-```
 
 
 
