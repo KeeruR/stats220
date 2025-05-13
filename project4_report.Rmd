@@ -1,0 +1,95 @@
+---
+title: "Project 4"
+author: "Keeru Rangu"
+subtitle: "STATS 220 Semester One 2025"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+```
+
+```{css echo=FALSE}
+h1 {
+  color: #fafafc;
+  font-family: 'Futura', sans-serif;
+  font-weight: bold;
+  background-color: #0f0f42;
+  padding: 20px;
+}
+
+h2 {
+  color: #fafafc;
+  font-family: 'PT Sans', sans-serif;
+  background-color: #0f0f42;
+  font-weight: bold;
+  padding: 20px;
+  border-bottom: 3px solid #4f87db;
+}
+
+body {
+  font-family: 'PT Sans', sans-serif;
+  background: linear-gradient(135deg, #b3d1ff, #d1deeb);
+  font-size: 18px;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  color: #333;
+}
+
+a {
+  color: #0f0f42;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+
+img {
+  border: 5px solid #0f0f42;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+
+ul {
+  list-style-type: square;
+}
+```
+
+
+
+## Introduction
+For this project, I observed and logged my personal phone usage multiple times over a period of several days. I wanted to explore the connection between my phone usage duration and the mood I was in prior to using the phone, the time of day I was most active, and how much of my screen time was dedicated to entertainment. This involved tracking how I used my phone, why I picked it up, and how I felt at the time.
+
+To improve my data set from Project 2, I added new questions to my Google Form. These included: “Were you alone or with others while using your phone?”, “What was your mood before using the app?”, and “Why did you open your phone just now?”. I added these to gain better insights into the social and emotional context of phone usage and enrich the narrative of my data story.
+
+I was the only person collecting data for this project, and I ensured I logged entries consistently at different times of the day and in different moods and contexts.
+
+In terms of *visualisations*, I focused on variables that could tell an interesting story—mood, entertainment time, and time of day. I chose bar charts, scatter plots, and boxplots because they best suited the type of data I had and for variety of showcasing the data. I also used data manipulation tools from dplyr, like **mutate(), group_by(), and summarise()**, to restructure the data meaningfully. Some ideas like using line plots didn’t work as my data wasn’t continuous over time, so I pivoted to more categorical and comparative visualisations. Adding lubridate functions helped me make use of the timestamp data more meaningfully.
+
+
+## Visual Data Story
+**Click below to view my visual data story on GitHub Pages.[https://keerur.github.io/stats220/visual_data_story.html](https://keerur.github.io/stats220/visual_data_story.html)**
+
+My visual data story shows **creativity** in both the visual design and the integration of *advanced visualization techniques.*
+For example, one visual used the shape of a bar chart filled with an image of a person on their phone, blending narrative with visuals. I used *cut_shape()* to fill the bars of a bar chart with a real photo (instead of just using colour fill) This enhances visual storytelling by matching the theme of phone use with a real-world image not just styling for looks, but meaningfully reinforcing the story. Another creative visual placed a boxplot showing phone use duration by mood on a photo background of another image of a person holding a phone, enhancing reader engagement and uniqueness to the graphs. Used *image_composite()* to do this, using *{magick}* in creative_plot4. It connects your chart data with relatable imagery, making the message emotionally resonant. These choices enhanced the visual appeal while still clearly communicating patterns in the data.
+
+I customized axis text, title, caption, and bold fonts consistently with strong use of theme() for professional styling. 
+
+I created smooth color changes for links using **CSS transitions** to give the report a clear, contemporary look. I used borders, rounded corners, and shadows to draw attention to the graphs/photos and make them blend in with the main design concept. A slightly gradient background has been added to the report body to enhance visual appeal without being overwhelming.
+
+The progression of the visual data story from mood and entertainment to time of day is supported by each graph, and the story is told in logical chunks. This demonstrates that I was making design choices to support the narrative of an engaging, educational, and customized data story .
+
+
+
+## Learning Reflection
+
+One important idea I learned from Module 4 was the power of layering and aesthetics in *ggplot2* to tell a meaningful story. Instead of just presenting raw data, the way we map data to colour, size, shape, and facets changes how effectively the message is communicated.
+
+I now realize that design elements like colour, layout, background graphics, and even axis order may fundamentally alter how a message is understood. For example, I learned how to use *theme(), reorder(), and facet_ or scale_* functions to guide attention to key insights.
+
+I'm becoming more interested in learning how to use R to create interactive visualisations. Packages like *{plotly} and {shiny}* have caught my attention, and I'd love to learn how to create interactive data stories instead of just visual ones. Investigating the possibility of allowing users to click, hover, or filter portions of a graph in real time would be interesting, particularly for dashboards or more intricate projects.
+
+
+```{r file='data_visualisation.R', eval=FALSE, echo=TRUE}
+
+```
